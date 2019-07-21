@@ -85,7 +85,7 @@ class liquidApi:
 
     def get_account(self, account_id):
         api = liquidApi()
-        result = api.get_api_call('/trading_accounts/' + account_id).json()
+        result = api.get_api_call('/trading_accounts/' + str(account_id)).json()
         return result
 
     def get_open_positions(self):
@@ -97,4 +97,16 @@ class liquidApi:
     def order(self, data):
         api = liquidApi()
         result = api.post_api_call('/orders/', data).json()
+        return result
+
+    def get_order(self, order_id):
+
+        api = liquidApi()
+        result = api.get_api_call('/orders/' + str(order_id)).json()
+        return result
+
+    def cancel_order(self, order_id):
+
+        api = liquidApi()
+        result = api.get_api_call('/orders/' + str(order_id) + '/cancel').json()
         return result

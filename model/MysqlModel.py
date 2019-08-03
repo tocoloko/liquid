@@ -22,6 +22,16 @@ class MysqlModel:
        mydb.close
        return rows
 
+   def selectCancelRecord(self):
+       #global mydb
+       cur = mydb.cursor()
+       sql = "select * from lq_buy where sell_flag<1 and (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 > 73.754 order by (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 desc limit 1"
+       cur.execute(sql)
+       rows = cur.fetchall()
+       cur.close
+       mydb.close
+       return rows
+
    def insertOrderHistory(self, buy_id, buy_cnt, buy_price):
        cur = mydb.cursor()
        sql = "insert into " \
@@ -31,9 +41,9 @@ class MysqlModel:
        cur.execute(sql)
        mydb.commit()
 
-   def updateOrderHistorySellType(self, buy_id):
+   def updateOrderHistorySellType(self, buy_id, sell_flag):
        cur = mydb.cursor()
-       sql = 'update lq_buy set sell_flag=1 where buy_id=' + str(buy_id)
+       sql = 'update lq_buy set sell_flag=' + str(sell_flag) + ' where buy_id=' + str(buy_id)
        result = cur.execute(sql)
        mydb.commit()
        return result

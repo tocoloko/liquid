@@ -122,51 +122,44 @@ def scan():
                 order = liquidApi.order(data)
                 if('id' in order):
                     print('売りました。' + str(order['price']))
-                    mysqlmodel.updateOrderHistorySellType(rcd[1])
+                    mysqlmodel.updateOrderHistorySellType(rcd[1],1)
                     mysqlmodel.insertSellHistory(rcd[1],order['id'],order['quantity'],order['price'])
                 time.sleep(1)
+
+
+def cancel():
+    from model import MysqlModel
+    liquidApi = liquid.liquidApi()
+    mysqlmodel = MysqlModel.MysqlModel()
+    record = mysqlmodel.selectCancelRecord()
+    # sell
+    data = {
+        'order_type': 'market',
+        'product_id': 5,
+        'side': 'sell',
+        'quantity': float(record[0][2])
+    }
+    order = liquidApi.order(data)
+    if ('id' in order):
+        print(order)
+        print('7時間を越えたため売りました。' + str(order['price']))
+        mysqlmodel.updateOrderHistorySellType(record[0][1], 2)
+        mysqlmodel.insertSellHistory(record[0][1], order['id'], order['quantity'], order['price'])
+    time.sleep(1)
 
 
 schedule.every(5).seconds.do(make_file)
 schedule.every(10).seconds.do(job)
 schedule.every(3).seconds.do(scan)
+schedule.every(10).minutes.do(cancel)
 while True:
     schedule.run_pending()
     time.sleep(5)
 
 
-'''
-schedule.every(3).seconds.do(scan)
-while True:
-    schedule.run_pending()
-    time.sleep(3)
-
-'''
 
 
 
 
 
 
-
-'''
-q = queue.Queue(15)
-for i in range(15):
-    boardInfo = liquidApi.get_board()
-    currentPrice = boardInfo['buy_price_levels'][0][0]
-    print(currentPrice)
-    q.put(currentPrice)
-    time.sleep(3)
-
-for i in range(10):
-    print(q.get())
-
-
-cnt = 1000;
-with open('file/history.txt', 'a') as a_writer:
-    cnt = cnt+1
-    a_writer.write(str(cnt)+'\n')
-
-with open('file/history.txt', 'r') as reader:
-    print(reader.read())
-'''

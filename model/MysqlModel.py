@@ -25,7 +25,7 @@ class MysqlModel:
    def selectCancelRecord(self):
        #global mydb
        cur = mydb.cursor()
-       sql = "select * from lq_buy where sell_flag<1 and (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 > 73.754 order by (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 desc limit 1"
+       sql = "select * from lq_buy where sell_flag<1 and (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 > 7 order by (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 desc limit 1"
        cur.execute(sql)
        rows = cur.fetchall()
        cur.close

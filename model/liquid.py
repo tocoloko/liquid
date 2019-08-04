@@ -168,3 +168,18 @@ class liquidApi:
         api = liquidApi()
         result = api.get_api_call('/executions/?product_id=' + str(product_id) + '&limit=1').json()
         return result
+
+    def getMyexecution(self, product_id):
+        api = liquidApi()
+        result = api.get_api_call('/executions/me?product_id=' + str(product_id)).json()
+        return result
+
+    def getOrdersTrade(self, id):
+        api = liquidApi()
+        result = api.get_api_call('/orders/id=' + str(id) + '/trades').json()
+        return result
+
+    def getTradingAccount(self):
+        api = liquidApi()
+        result = api.get_api_call('/trading_accounts').json()
+        return result

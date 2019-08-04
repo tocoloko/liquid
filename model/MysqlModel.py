@@ -15,7 +15,7 @@ class MysqlModel:
    def selectOrderHistory(self):
        #global mydb
        cur = mydb.cursor()
-       sql = "select * from lq_buy where sell_flag<1"
+       sql = "select * from lq_buy where sell_flag = 0"
        cur.execute(sql)
        rows = cur.fetchall()
        cur.close
@@ -25,7 +25,7 @@ class MysqlModel:
    def selectCancelRecord(self):
        #global mydb
        cur = mydb.cursor()
-       sql = "select * from lq_buy where sell_flag<1 and (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 > 7 order by (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 desc limit 1"
+       sql = "select * from lq_buy where sell_flag = 0 and (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 > 7 order by (unix_timestamp(now())-unix_timestamp(buy_create_at))/3600 desc limit 1"
        cur.execute(sql)
        rows = cur.fetchall()
        cur.close
@@ -35,8 +35,8 @@ class MysqlModel:
    def insertOrderHistory(self, buy_id, buy_cnt, buy_price):
        cur = mydb.cursor()
        sql = "insert into " \
-             "lq_buy (buy_id, buy_cnt, buy_price) " \
-             "values (" + str(buy_id) + "," + str(buy_cnt) + "," + str(buy_price) +")"
+            "lq_buy (buy_id, buy_cnt, buy_price, sell_flag) " \
+            "values (" + str(buy_id) + ", " + str(buy_cnt) + ", " + str(buy_price) + ", -1"
        print(sql)
        cur.execute(sql)
        mydb.commit()
@@ -57,7 +57,23 @@ class MysqlModel:
        cur.execute(sql)
        mydb.commit()
 
+   def selectOrderHistoryIdWithunFilled(self):
+       # カーソルを取得する。
+       cur = mydb.cursor()
+       sql = "select id, buy_id from lq_buy where sell_flag = -1"
+       cur.execute(sql)
+       rows = cur.fetchall()
+       cur.close
+       mydb.close
+       # print(rows)
+       return rows
 
+   def updateOrderHistoryBuyFilled(self, id):
+       cur = mydb.cursor()
+       sql = "update lq_buy set sell_flag= 0  where id=" + str(id)
+       result = cur.execute(sql)
+       mydb.commit()
+       return result
 
 
 

@@ -87,7 +87,7 @@ def job():
             order = liquidApi.order(data)
             if ('id' in order):
                 mysqlmodel.insertOrderHistory(order['id'],order['quantity'],order['price'])
-                print('買いました。' + str(order['price']))
+                print('注文しました。' + str(order['price']))
             time.sleep(10)
 
 def scan():
@@ -147,11 +147,27 @@ def cancel():
             mysqlmodel.insertSellHistory(record[0][1], order['id'], order['quantity'], order['price'])
     time.sleep(1)
 
+def refreshStatus():
+   from model import MysqlModel
+   liquidApi = liquid.liquidApi()
+   mysqlmodel = MysqlModel.MysqlModel()
+   record = mysqlmodel.selectOrderHistoryIdWithunFilled()
+   #print(record)
+   if (len(record) > 0):
+       for rcd in record:
+           result = liquidApi.get_order(rcd[1])
+           if ('status' in result and result['status'] == "filled"):
+               mysqlmodel.updateOrderHistoryBuyFilled(rcd[0])
+               print('sell_flagが更新されました。')
+           time.sleep(1)
+
 
 schedule.every(5).seconds.do(make_file)
 schedule.every(10).seconds.do(job)
 schedule.every(3).seconds.do(scan)
 schedule.every(10).minutes.do(cancel)
+schedule.every(5).seconds.do(refreshStatus)
+
 while True:
     schedule.run_pending()
     time.sleep(5)

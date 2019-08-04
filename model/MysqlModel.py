@@ -36,7 +36,7 @@ class MysqlModel:
        cur = mydb.cursor()
        sql = "insert into " \
             "lq_buy (buy_id, buy_cnt, buy_price, sell_flag) " \
-            "values (" + str(buy_id) + ", " + str(buy_cnt) + ", " + str(buy_price) + ", -1"
+            "values (" + str(buy_id) + ", " + str(buy_cnt) + ", " + str(buy_price) + ", -1)"
        print(sql)
        cur.execute(sql)
        mydb.commit()

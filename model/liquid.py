@@ -1,18 +1,8 @@
 import json
-
 import time
-
 import jwt
 import requests
-
-
-from model.sqlmodel import sqlmodel
-
-#sqlmodel = sqlmodel()
-#sqlmodel.selectOrderHistory()
-from controller.util import util
 import config.myconfig
-
 
 class liquidApi:
     def __init__(self):
@@ -59,11 +49,6 @@ class liquidApi:
     def get_board(self):
         api = liquidApi()
         result = api.get_api_call('/products/5/price_levels').json()
-        # bids = util.list_to_pd(result['buy_price_levels'],'qo',False)
-        # asks = util.list_to_pd(result['sell_price_levels'],'qo',True)
-        bids = util.list_to_pd(result['buy_price_levels'])
-        asks = util.list_to_pd(result['sell_price_levels'])
-        #return bids, asks
         return result
 
     def get_balance(self):

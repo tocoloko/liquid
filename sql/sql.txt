@@ -1,0 +1,27 @@
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `btc_price` decimal(20,10) NOT NULL,
+  `xrp_price` decimal(20,10) NOT NULL,
+  `eth_price` decimal(20,10) NOT NULL,
+  `bch_price` decimal(20,10) NOT NULL,
+  `btc_xrp_ratio` decimal(20,10) NOT NULL,
+  `btc_eth_ratio` decimal(20,10) NOT NULL,
+  `btc_bch_ratio` decimal(20,10) NOT NULL,
+  `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `total` decimal(20,10) NOT NULL,
+  `btc_price` decimal(20,10) DEFAULT NULL,
+  `btc_cnt` decimal(20,10) DEFAULT NULL,
+  `type` int(1) NOT NULL,
+  `price` decimal(20,10) DEFAULT NULL,
+  `cnt` decimal(20,10) DEFAULT NULL,
+  `ratio` decimal(20,10) DEFAULT NULL,
+  `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8

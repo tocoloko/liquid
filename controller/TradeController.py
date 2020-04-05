@@ -4,7 +4,6 @@ import schedule
 
 from model import liquid
 from model import MysqlModel
-from model import FileModel
 import decimal
 import math
 
@@ -26,24 +25,19 @@ def trade():
 def change_btc(rid, btc_cnt, cnt, type, ratio):
     time.sleep(1)
     mysqlmodel = MysqlModel.MysqlModel()
-    max_line = mysqlmodel.selectMaxLine()
-    min_line = mysqlmodel.selectMinLine()
     current_line = mysqlmodel.selectCurrentLine()
     if type == 1:
-        max = max_line[0][0]
-        min = min_line[0][0]
+        limit = 2180
         current_ratio = current_line[0][0]
         current_price = current_line[0][3]
         pid = 83
     elif type == 2:
-        max = max_line[0][1]
-        min = min_line[0][1]
+        limit = 4
         current_ratio = current_line[0][1]
         current_price = current_line[0][4]
         pid = 29
     else:
-        max = max_line[0][2]
-        min = min_line[0][2]
+        limit = 0.04
         current_ratio = current_line[0][2]
         current_price = current_line[0][5]
         pid = 41
@@ -53,8 +47,7 @@ def change_btc(rid, btc_cnt, cnt, type, ratio):
         print('prepare to sell btc, buy ' + product_type[pid])
         print(current_ratio)
         print(ratio)
-        print(max)
-        if current_ratio > max > ratio:
+        if current_ratio - ratio > limit:
             print('sell btc, buy ' + product_type[pid])
             sell_btc(btc_cnt, pid, current_price, current_ratio, rid)
         print('\n')
@@ -64,7 +57,7 @@ def change_btc(rid, btc_cnt, cnt, type, ratio):
         print(current_ratio)
         print(ratio)
         print(min)
-        if current_ratio < min and ratio > min:
+        if current_ratio - ratio < limit:
             print('sell ' + product_type[pid] + ', buy btc')
             sell_other(cnt, pid, current_line[0][6], current_ratio, rid)
         print('\n')

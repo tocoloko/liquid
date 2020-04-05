@@ -25,4 +25,4 @@ class ProductsModel:
         except:
             time.sleep(10)
             pass
-        time.sleep(10)
+        time.sleep(60)

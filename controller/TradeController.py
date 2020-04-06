@@ -19,7 +19,7 @@ def trade():
             change_btc(record[0], record[3], 0, record[4], record[7])
         else:
             change_btc(record[0], 0, record[6], record[4], record[7])
-        time.sleep(10)
+        time.sleep(1)
 
 
 def change_btc(rid, btc_cnt, cnt, type, ratio):

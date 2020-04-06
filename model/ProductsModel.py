@@ -21,8 +21,8 @@ class ProductsModel:
             btc_xrp_ratio = float(btc) / float(xrp)
             btc_eth_ratio = float(btc) / float(eth)
             btc_bch_ratio = float(btc) / float(bch)
-            mysqlmodel.insertProducts(btc, xrp, eth, bch, btc_xrp_ratio, btc_eth_ratio, btc_bch_ratio)
+            mysqlmodel.updateProducts(btc, xrp, eth, bch, btc_xrp_ratio, btc_eth_ratio, btc_bch_ratio)
         except:
-            time.sleep(10)
+            time.sleep(1)
             pass
-        time.sleep(60)
+        time.sleep(1)

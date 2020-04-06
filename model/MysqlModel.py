@@ -165,12 +165,19 @@ class MysqlModel:
         mydb.close
         return rows
 
-    def insertProducts(self, btc_price, xrp_price, eth_price, bch_price, btc_xrp_ratio, btc_eth_ratio, btc_bch_ratio):
-        print(btc_xrp_ratio)
+    def updateProducts(self, btc_price, xrp_price, eth_price, bch_price, btc_xrp_ratio, btc_eth_ratio, btc_bch_ratio):
+        print(btc_price)
         cur = mydb.cursor()
-        sql = 'insert into product(btc_price, xrp_price, eth_price, bch_price, btc_xrp_ratio, btc_eth_ratio, ' \
-              'btc_bch_ratio)' \
-              'values (' + str(btc_price) + "," + str(xrp_price) + "," + str(eth_price) + "," + str(bch_price) + "," + str(btc_xrp_ratio) + "," + str(btc_eth_ratio) + "," + str(btc_bch_ratio) + ")"
+        sql = 'update product ' \
+              'set btc_price=' + str(btc_price) + "," \
+              'xrp_price=' + str(xrp_price) + "," \
+              'eth_price=' + str(eth_price) + "," \
+              'bch_price=' + str(bch_price) + "," \
+              'btc_xrp_ratio=' + str(btc_xrp_ratio) + "," \
+              'btc_eth_ratio=' + str(btc_eth_ratio) + "," \
+              'btc_bch_ratio=' + str(btc_bch_ratio) + "," \
+              'create_at=now() where id=1'
+        print(sql)
         cur.execute(sql)
         mydb.commit()
         cur.close

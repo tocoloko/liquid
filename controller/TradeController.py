@@ -56,8 +56,7 @@ def change_btc(rid, btc_cnt, cnt, type, ratio):
         print('prepare to sell ' + product_type[pid] + ', buy btc')
         print(current_ratio)
         print(ratio)
-        print(min)
-        if current_ratio - ratio < limit:
+        if ratio - current_ratio > limit:
             print('sell ' + product_type[pid] + ', buy btc')
             sell_other(cnt, pid, current_line[0][6], current_ratio, rid)
         print('\n')

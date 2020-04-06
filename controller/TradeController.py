@@ -32,7 +32,7 @@ def change_btc(rid, btc_cnt, cnt, type, ratio):
         current_price = current_line[0][3]
         pid = 83
     elif type == 3:
-        limit = 5
+        limit = 4
         current_ratio = current_line[0][1]
         current_price = current_line[0][4]
         pid = 29

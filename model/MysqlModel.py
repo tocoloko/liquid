@@ -232,3 +232,83 @@ class MysqlModel:
         result = cur.execute(sql)
         mydb.commit()
         return result
+
+
+    ''' 
+    20200704 新算法
+    '''
+    def insertLine(self, price):
+        cur = mydb.cursor()
+        sql = "insert into line (price)" \
+              "values (" + str(price) + ")"
+        cur.execute(sql)
+        mydb.commit()
+        cur.close
+        mydb.close
+
+
+
+    def deleteLine(self):
+        cur = mydb.cursor()
+        sql = "delete from line where create_at <= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) "
+        cur.execute(sql)
+        rows = cur.fetchall()
+        cur.close
+        mydb.close
+        return rows
+
+    def selectAverageFromLine(self):
+        cur = mydb.cursor()
+        sql = "select avg(price) as average from line"
+        cur.execute(sql)
+        rows = cur.fetchall()
+        cur.close
+        mydb.close
+        return rows
+
+    def selectBuyRecord(self):
+        cur = mydb.cursor()
+        sql = "select * from trade where buy_flag=0"
+        cur.execute(sql)
+        rows = cur.fetchall()
+        cur.close
+        mydb.close
+        return rows
+
+    def updateRealBuyPrice(self, id, buy_price):
+        cur = mydb.cursor()
+        sql = 'update trade set buy_flag=1' \
+              ',real_buy_price=' + str(buy_price) + \
+              ',update_at=now()' \
+              ' where id=' + str(id)
+        print(sql)
+        cur.execute(sql)
+        mydb.commit()
+
+    def selectSellRecord(self):
+        cur = mydb.cursor()
+        sql = "select * from trade where buy_flag=1 and sell_flag=0"
+        cur.execute(sql)
+        rows = cur.fetchall()
+        cur.close
+        mydb.close
+        return rows
+
+    def updateRealSellPrice(self, id, sell_price):
+        cur = mydb.cursor()
+        sql = 'update trade set sell_flag=1' \
+              ',real_sell_price=' + str(sell_price) + \
+              ',update_at=now()' \
+              ' where id=' + str(id)
+        print(sql)
+        cur.execute(sql)
+        mydb.commit()
+
+    def insertBuyRecord(self, btc_id, count, buy_price, sell_price):
+        cur = mydb.cursor()
+        sql = "insert into " \
+              "trade (btc_id, count, buy_price, sell_price) " \
+              "values (" + str(btc_id) + "," + str(count) + "," + str(buy_price) + "," + str(sell_price) + ")"
+        print(sql)
+        cur.execute(sql)
+        mydb.commit()

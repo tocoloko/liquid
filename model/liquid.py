@@ -145,6 +145,11 @@ class liquidApi:
         result = api.get_api_call('/products').json()
         return result
 
+    def get_product_btc(self):
+        api = liquidApi()
+        result = api.get_api_call('/products/5').json()
+        return result
+
     def put_api_call(self, path, body):
         body = json.dumps(body)
         timestamp = str(int(time.time()))

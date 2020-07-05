@@ -7,10 +7,9 @@ CREATE TABLE `product` (
   `btc_xrp_ratio` decimal(20,10) NOT NULL,
   `btc_eth_ratio` decimal(20,10) NOT NULL,
   `btc_bch_ratio` decimal(20,10) NOT NULL,
-  `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `create_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
-
 
 CREATE TABLE `history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -23,5 +22,88 @@ CREATE TABLE `history` (
   `ratio` decimal(20,10) DEFAULT NULL,
   `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+
+// MySQL 5.5
+
+CREATE TABLE `history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `total` decimal(20,10) NOT NULL,
+  `btc_price` decimal(20,10) DEFAULT NULL,
+  `btc_cnt` decimal(20,10) DEFAULT NULL,
+  `type` int(1) NOT NULL,
+  `price` decimal(20,10) DEFAULT NULL,
+  `cnt` decimal(20,10) DEFAULT NULL,
+  `ratio` decimal(20,10) DEFAULT NULL,
+  `create_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+
+// MySQL 5.5
+
+DROP TRIGGER IF EXISTS `update_at_trigger`;
+DELIMITER //
+CREATE TRIGGER `update_at_trigger` BEFORE UPDATE ON `history`
+ FOR EACH ROW SET NEW.`update_at` = NOW()
+//
+DELIMITER ;
+
+mysqldump -uroot -p --set-gtid-purged=OFF -d database liquid history > history.sql
+
+
+CREATE TABLE `line` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `price` decimal(20,10) NOT NULL,
+  `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32203 DEFAULT CHARSET=utf8
+
+
+
+CREATE TABLE `trade` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `btc_id` int(11) NOT NULL,
+  `count` decimal(20,10) NOT NULL,
+  `buy_price` decimal(20,10) NOT NULL,
+  `sell_price` decimal(20,10) NOT NULL,
+  `real_buy_price` decimal(20,10) DEFAULT NULL,
+  `real_sell_price` decimal(20,10) DEFAULT NULL,
+  `buy_flag` int(1) DEFAULT '0',
+  `sell_flag` int(1) DEFAULT '0',
+  `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+// MySQL 5.5
+
+CREATE TABLE `line` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `price` decimal(20,10) NOT NULL,
+  `create_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32203 DEFAULT CHARSET=utf8
+
+
+// MySQL 5.5
+CREATE TABLE `trade` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `btc_id` int(11) NOT NULL,
+  `count` decimal(20,10) NOT NULL,
+  `buy_price` decimal(20,10) NOT NULL,
+  `sell_price` decimal(20,10) NOT NULL,
+  `real_buy_price` decimal(20,10) DEFAULT NULL,
+  `real_sell_price` decimal(20,10) DEFAULT NULL,
+  `buy_flag` int(1) DEFAULT '0',
+  `sell_flag` int(1) DEFAULT '0',
+  `create_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8

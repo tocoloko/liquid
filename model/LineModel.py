@@ -14,7 +14,7 @@ class LineModel:
         except:
             time.sleep(60)
             pass
-        time.sleep(60)
+        time.sleep(3600)
 
     def get_average(self):
         try:

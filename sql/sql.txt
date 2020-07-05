@@ -87,9 +87,9 @@ CREATE TABLE `trade` (
 CREATE TABLE `line` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `price` decimal(20,10) NOT NULL,
-  `create_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32203 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 
 
 // MySQL 5.5
@@ -104,6 +104,6 @@ CREATE TABLE `trade` (
   `buy_flag` int(1) DEFAULT '0',
   `sell_flag` int(1) DEFAULT '0',
   `create_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8

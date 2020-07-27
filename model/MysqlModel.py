@@ -250,7 +250,7 @@ class MysqlModel:
 
     def deleteLine(self):
         cur = mydb.cursor()
-        sql = "delete from line where create_at <= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) "
+        sql = "delete from line where create_at <= DATE_SUB(CURRENT_DATE(), INTERVAL 90 DAY) "
         cur.execute(sql)
         rows = cur.fetchall()
         cur.close

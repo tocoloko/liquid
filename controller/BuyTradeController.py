@@ -22,10 +22,9 @@ def buy():
                 }
                 order = liquidApi.order(data)
                 mysqlmodel.updateRealBuyPrice(record[0], order['price'])
-                time.sleep(3600)
+                time.sleep(21600)
     except:
         pass
-    time.sleep(86400)
 
 
 def get_average():

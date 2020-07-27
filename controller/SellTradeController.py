@@ -26,10 +26,9 @@ def sell():
                 mysqlmodel.updateRealSellPrice(record[0], order['price'])
                 sell_price = int(average) + 100000
                 mysqlmodel.insertBuyRecord(record[1], record[2], int(average), sell_price)
-                time.sleep(3600)
+                time.sleep(21600)
     except:
         pass
-    time.sleep(86400)
 
 
 def get_average():

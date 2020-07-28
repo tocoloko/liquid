@@ -10,11 +10,11 @@ liquidApi = liquid.liquidApi()
 
 
 def sell():
-    average = get_average()
     try:
         history = mysqlmodel.selectSellRecord()
         board = liquidApi.get_product_btc()
         for record in history:
+            average = get_average()
             if float(board['market_ask']) > float(record[4]):
                 data = {
                     'order_type': 'market',
